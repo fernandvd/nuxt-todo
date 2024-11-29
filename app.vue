@@ -6,11 +6,11 @@
     <button class="btn btn-primary" @click="createInstance" type="button">
       Crear tarea
     </button>
-    <TableTodo :isLoading="isLoading" :todos="todos" @edit="editInstance" @delete="deleteInstance" />
+    <LazyTableTodo :isLoading="isLoading" :todos="todos" @edit="editInstance" @delete="deleteInstance" />
 
   </div>
 
-  <ModalTodo 
+  <LazyModalTodo 
   :instance="instance"
   @close="closeModal"
   @save="saveInstance"
