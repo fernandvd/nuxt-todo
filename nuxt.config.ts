@@ -25,7 +25,15 @@ export default defineNuxtConfig({
           defer: true
         }
       ]
-    }
-  }
+    },
+  },
+  modules: ['@nuxtjs/apollo'],
+  apollo: {    
+    clients: {      
+      default: {        
+        httpEndpoint: 'http://localhost:8000/graphql/'      
+      }    
+    },  
+  },
 })
 

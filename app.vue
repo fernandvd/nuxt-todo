@@ -3,6 +3,14 @@
   <div class="container mt-4">
     <h3>Lista de Tareas</h3>
 
+    <div class="row">
+      <div class="col-auto my-3">
+        <LazySearchInput 
+        v-model="search"
+        @click-search="handleSearch"
+        />
+      </div>
+    </div>
     <button class="btn btn-primary" @click="createInstance" type="button">
       Crear tarea
     </button>
@@ -23,6 +31,7 @@ import axios from 'axios';
 let isLoading = ref(false);
 let modal = ref(null);
 let todos = ref([]);
+let search = ref("");
 let instance = ref({
   id: null,
   titulo: null,
@@ -122,5 +131,40 @@ function deleteInstance(id) {
     });
   }
 
+}
+
+async function handleSearch() {
+  if (search.value) {
+    const query = gql`
+    {
+      todoSearch (search: "${search.value}") {
+        id
+        titulo
+        descripcion
+        estado
+        fechaCreacion
+        fechaActualizacion
+      }
+    }
+    `;
+    const { data } = await useAsyncQuery(query)
+
+    if (data.value && data.value.todoSearch) {
+      isLoading.value = true;
+      let newData = [];
+      data.value.todoSearch.forEach(el => {
+        newData.push({
+          ...el,
+          fecha_creacion: el.fechaCreacion,
+          fecha_actualizacion: el.fechaActualizacion,
+
+        })
+      });
+      todos.value = newData;
+      isLoading.value = false;
+    }
+  } else {
+    listTodo()
+  }
 }
 </script>

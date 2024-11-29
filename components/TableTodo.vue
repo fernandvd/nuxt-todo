@@ -52,7 +52,7 @@
                 </table>
             </div>
         </div>
-        <h6 class="text-danger" v-else>No hay tareas pendientes</h6>
+        <h6 class="text-danger my-1" v-else>No hay tareas</h6>
 
     </div>
 
