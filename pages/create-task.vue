@@ -6,7 +6,7 @@
         </div>
         <div class="row my-2 mx-3 justify-content-center">
             <div class="col-md-8 col-sm-12">
-                <FormTodo 
+                <LazyFormTodo 
                 :instance="instance"
                 @close="closeModal"
                 @save="saveInstance"
@@ -22,12 +22,16 @@ let instance = ref({estado: ""});
 const router = useRouter()
 const TODO_URL = "http://localhost:8000/api/v1/todo/todo/";
 
+useHead({
+    title: "Crear tarea",
+})
+
 function closeModal() {
     router.push("/")
 }
 
-function saveInstance() {
-    const { data, error } = useFetch(TODO_URL, {
+async function saveInstance() {
+    const { data, error } = await useFetch(TODO_URL, {
         method: "POST",
         body: {
             titulo: instance.value.titulo,
